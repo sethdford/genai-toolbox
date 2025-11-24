@@ -1,0 +1,108 @@
+# Copyright 2025 Enterprise GenAI Toolbox
+#
+# Amazon Redshift Tool Definitions
+#
+# NOTE: Redshift uses PostgreSQL wire protocol, so can use postgres tools!
+
+sources:
+    redshift-source:
+        kind: redshift
+        host: ${REDSHIFT_HOST}
+        port: ${REDSHIFT_PORT:5439}
+        user: ${REDSHIFT_USER}
+        password: ${REDSHIFT_PASSWORD}
+        database: ${REDSHIFT_DATABASE}
+        maxOpenConns: 25
+        maxIdleConns: 5
+
+tools:
+    # Redshift is PostgreSQL-compatible, so we can reuse postgres tools!
+    # Just alias them with redshift- prefix for clarity
+
+    execute_sql:
+        kind: postgres-execute-sql  # Reuse postgres implementation
+        source: redshift-source
+        description: Execute SQL query on Redshift data warehouse.
+
+    list_tables:
+        kind: postgres-list-tables  # Reuse postgres implementation
+        source: redshift-source
+        description: List all tables in the Redshift database.
+
+    list_schemas:
+        kind: postgres-list-schemas  # Reuse postgres implementation
+        source: redshift-source
+        description: List all schemas in the Redshift database.
+
+    database_overview:
+        kind: postgres-database-overview  # Reuse postgres implementation
+        source: redshift-source
+        description: Get an overview of the Redshift database structure.
+
+    list_active_queries:
+        kind: postgres-list-active-queries  # Reuse postgres implementation
+        source: redshift-source
+        description: List currently running queries on Redshift.
+
+    long_running_queries:
+        kind: postgres-sql
+        source: redshift-source
+        description: "Find long-running queries in Redshift using SVV_QUERY_STATE."
+        statement: |
+            SELECT
+                query,
+                user_name,
+                db_name,
+                start_time,
+                elapsed_time,
+                queue_time,
+                exec_time,
+                query_text
+            FROM svv_query_state
+            WHERE state = 'Running'
+            ORDER BY elapsed_time DESC
+            LIMIT COALESCE($1::int, 50);
+        parameters:
+            - name: limit
+              description: "Maximum number of results to return."
+              type: integer
+              default: 50
+
+    table_stats:
+        kind: postgres-sql
+        source: redshift-source
+        description: "Get table statistics including size and row count."
+        statement: |
+            SELECT
+                TRIM(pgn.nspname) AS schema_name,
+                TRIM(a.name) AS table_name,
+                b.mbytes AS table_size_mb,
+                a.rows AS row_count,
+                a.unsorted AS unsorted_pct,
+                a.stats_off AS stats_off_pct
+            FROM svv_table_info a
+            JOIN pg_class AS pgc ON pgc.oid = a.table_id
+            JOIN pg_namespace AS pgn ON pgn.oid = pgc.relnamespace
+            JOIN (
+                SELECT tbl, COUNT(*) AS mbytes
+                FROM stv_blocklist
+                GROUP BY tbl
+            ) b ON a.table_id = b.tbl
+            WHERE pgn.nspname NOT IN ('pg_catalog', 'information_schema')
+            ORDER BY b.mbytes DESC
+            LIMIT COALESCE($1::int, 50);
+        parameters:
+            - name: limit
+              description: "Maximum number of results to return."
+              type: integer
+              default: 50
+
+toolsets:
+    redshift_tools:
+        - execute_sql
+        - list_tables
+        - list_schemas
+        - database_overview
+        - list_active_queries
+        - long_running_queries
+        - table_stats

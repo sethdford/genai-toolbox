@@ -1,0 +1,76 @@
+# Copyright 2025 Enterprise GenAI Toolbox
+#
+# Amazon DynamoDB Tool Definitions
+#
+# STATUS: Tool implementations pending
+# These tools require Go implementation in internal/tools/dynamodb/
+#
+# See internal/tools/postgres/ for reference implementation patterns
+
+sources:
+    dynamodb-source:
+        kind: dynamodb
+        region: ${DYNAMODB_REGION:us-east-1}
+        endpoint: ${DYNAMODB_ENDPOINT:}  # Optional: for DynamoDB Local
+        accessKeyId: ${AWS_ACCESS_KEY_ID:}
+        secretAccessKey: ${AWS_SECRET_ACCESS_KEY:}
+
+tools:
+    list_tables:
+        kind: dynamodb-list-tables
+        source: dynamodb-source
+        description: Lists all DynamoDB tables in the configured region.
+        # IMPLEMENTATION REQUIRED: internal/tools/dynamodb/dynamodblisttables/
+
+    describe_table:
+        kind: dynamodb-describe-table
+        source: dynamodb-source
+        description: Get detailed information about a DynamoDB table including schema, indexes, and provisioned throughput.
+        # IMPLEMENTATION REQUIRED: internal/tools/dynamodb/dynamodbdescribetable/
+
+    query:
+        kind: dynamodb-query
+        source: dynamodb-source
+        description: Query items from a DynamoDB table using partition key and optional sort key conditions.
+        # IMPLEMENTATION REQUIRED: internal/tools/dynamodb/dynamodbquery/
+
+    scan:
+        kind: dynamodb-scan
+        source: dynamodb-source
+        description: Scan all items in a DynamoDB table with optional filter expressions.
+        # IMPLEMENTATION REQUIRED: internal/tools/dynamodb/dynamodbscan/
+
+    get_item:
+        kind: dynamodb-get-item
+        source: dynamodb-source
+        description: Retrieve a single item from DynamoDB by its primary key.
+        # IMPLEMENTATION REQUIRED: internal/tools/dynamodb/dynamodbgetitem/
+
+    put_item:
+        kind: dynamodb-put-item
+        source: dynamodb-source
+        description: Insert or replace an item in a DynamoDB table.
+        # IMPLEMENTATION REQUIRED: internal/tools/dynamodb/dynamodbputitem/
+
+    update_item:
+        kind: dynamodb-update-item
+        source: dynamodb-source
+        description: Update specific attributes of an item in DynamoDB.
+        # IMPLEMENTATION REQUIRED: internal/tools/dynamodb/dynamodbupdateitem/
+
+    delete_item:
+        kind: dynamodb-delete-item
+        source: dynamodb-source
+        description: Delete an item from a DynamoDB table by its primary key.
+        # IMPLEMENTATION REQUIRED: internal/tools/dynamodb/dynamodbdeleteitem/
+
+toolsets:
+    dynamodb_tools:
+        - list_tables
+        - describe_table
+        - query
+        - scan
+        - get_item
+        - put_item
+        - update_item
+        - delete_item

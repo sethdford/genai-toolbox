@@ -1,0 +1,52 @@
+# Copyright 2025 Enterprise GenAI Toolbox
+#
+# Splunk Enterprise Tool Definitions
+#
+# STATUS: Tool implementations pending
+# These tools require Go implementation in internal/tools/splunk/
+
+sources:
+    splunk-source:
+        kind: splunk
+        host: ${SPLUNK_HOST}
+        port: ${SPLUNK_PORT:8089}
+        scheme: ${SPLUNK_SCHEME:https}
+        token: ${SPLUNK_TOKEN:}
+        # Or username/password:
+        # username: ${SPLUNK_USERNAME:}
+        # password: ${SPLUNK_PASSWORD:}
+        hecPort: ${SPLUNK_HEC_PORT:8088}
+        hecToken: ${SPLUNK_HEC_TOKEN:}
+        timeout: 120s
+
+tools:
+    create_search:
+        kind: splunk-create-search
+        source: splunk-source
+        description: Create a new Splunk search job with SPL (Search Processing Language) query.
+        # IMPLEMENTATION REQUIRED: internal/tools/splunk/splunkcreatesearch/
+
+    get_search_status:
+        kind: splunk-get-search-status
+        source: splunk-source
+        description: Check the status of a running Splunk search job.
+        # IMPLEMENTATION REQUIRED: internal/tools/splunk/splunkgetsearchstatus/
+
+    get_search_results:
+        kind: splunk-get-search-results
+        source: splunk-source
+        description: Retrieve results from a completed Splunk search job.
+        # IMPLEMENTATION REQUIRED: internal/tools/splunk/splunkgetsearchresults/
+
+    send_event:
+        kind: splunk-send-event
+        source: splunk-source
+        description: Send an event to Splunk via HTTP Event Collector (HEC).
+        # IMPLEMENTATION REQUIRED: internal/tools/splunk/splunksendevent/
+
+toolsets:
+    splunk_tools:
+        - create_search
+        - get_search_status
+        - get_search_results
+        - send_event

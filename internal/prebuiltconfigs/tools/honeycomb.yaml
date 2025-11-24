@@ -1,0 +1,47 @@
+# Copyright 2025 Enterprise GenAI Toolbox
+#
+# Honeycomb Observability Tool Definitions
+#
+# STATUS: Tool implementations pending
+# These tools require Go implementation in internal/tools/honeycomb/
+
+sources:
+    honeycomb-source:
+        kind: honeycomb
+        apiKey: ${HONEYCOMB_API_KEY}
+        dataset: ${HONEYCOMB_DATASET:}
+        environment: ${HONEYCOMB_ENVIRONMENT:}
+        baseUrl: ${HONEYCOMB_BASE_URL:https://api.honeycomb.io}
+        timeout: 30
+
+tools:
+    list_datasets:
+        kind: honeycomb-list-datasets
+        source: honeycomb-source
+        description: List all datasets in the Honeycomb account.
+        # IMPLEMENTATION REQUIRED: internal/tools/honeycomb/honeycomblistdatasets/
+
+    create_query:
+        kind: honeycomb-create-query
+        source: honeycomb-source
+        description: Create a new query specification in Honeycomb.
+        # IMPLEMENTATION REQUIRED: internal/tools/honeycomb/honeycombcreatequery/
+
+    execute_query:
+        kind: honeycomb-execute-query
+        source: honeycomb-source
+        description: Execute a query against Honeycomb data and return results.
+        # IMPLEMENTATION REQUIRED: internal/tools/honeycomb/honeycombexecutequery/
+
+    get_query_result:
+        kind: honeycomb-get-query-result
+        source: honeycomb-source
+        description: Retrieve the results of a previously executed query.
+        # IMPLEMENTATION REQUIRED: internal/tools/honeycomb/honeycombgetqueryresult/
+
+toolsets:
+    honeycomb_tools:
+        - list_datasets
+        - create_query
+        - execute_query
+        - get_query_result

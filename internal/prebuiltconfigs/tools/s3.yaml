@@ -1,0 +1,60 @@
+# Copyright 2025 Enterprise GenAI Toolbox
+#
+# Amazon S3 Tool Definitions
+#
+# STATUS: Tool implementations pending
+# These tools require Go implementation in internal/tools/s3/
+
+sources:
+    s3-source:
+        kind: s3
+        region: ${S3_REGION:us-east-1}
+        bucket: ${S3_BUCKET}
+        endpoint: ${S3_ENDPOINT:}  # Optional: for MinIO, LocalStack
+        forcePathStyle: ${S3_FORCE_PATH_STYLE:false}
+
+tools:
+    list_buckets:
+        kind: s3-list-buckets
+        source: s3-source
+        description: List all S3 buckets in the account.
+        # IMPLEMENTATION REQUIRED: internal/tools/s3/s3listbuckets/
+
+    list_objects:
+        kind: s3-list-objects
+        source: s3-source
+        description: List objects in an S3 bucket with optional prefix filtering.
+        # IMPLEMENTATION REQUIRED: internal/tools/s3/s3listobjects/
+
+    get_object:
+        kind: s3-get-object
+        source: s3-source
+        description: Retrieve an object from S3 and return its contents.
+        # IMPLEMENTATION REQUIRED: internal/tools/s3/s3getobject/
+
+    put_object:
+        kind: s3-put-object
+        source: s3-source
+        description: Upload an object to S3.
+        # IMPLEMENTATION REQUIRED: internal/tools/s3/s3putobject/
+
+    delete_object:
+        kind: s3-delete-object
+        source: s3-source
+        description: Delete an object from S3.
+        # IMPLEMENTATION REQUIRED: internal/tools/s3/s3deleteobject/
+
+    get_object_metadata:
+        kind: s3-get-object-metadata
+        source: s3-source
+        description: Get metadata for an S3 object without downloading the content.
+        # IMPLEMENTATION REQUIRED: internal/tools/s3/s3getobjectmetadata/
+
+toolsets:
+    s3_tools:
+        - list_buckets
+        - list_objects
+        - get_object
+        - put_object
+        - delete_object
+        - get_object_metadata
