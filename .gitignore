@@ -21,3 +21,13 @@ node_modules
 # executable
 genai-toolbox
 toolbox
+
+# Build artifacts
+dist/
+bin/
+*.tar.gz
+*.zip
+
+# Test files
+test-tools.yaml
+*.test
