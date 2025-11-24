@@ -84,5 +84,5 @@ jobs:
           echo "curl -fsSL https://raw.githubusercontent.com/${{ github.repository }}/main/scripts/install.sh | bash" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "# NPM install" >> $GITHUB_STEP_SUMMARY
-          echo "npm install -g @genai-toolbox/server@${{ steps.version.outputs.VERSION }}" >> $GITHUB_STEP_SUMMARY
+          echo "npm install -g @genai-toolbox-enterprise/server@${{ steps.version.outputs.VERSION }}" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
