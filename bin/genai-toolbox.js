@@ -35,7 +35,7 @@ if (!fs.existsSync(binaryPath)) {
   console.error('  - Windows (x64)');
   console.error('');
   console.error('Try manual installation:');
-  console.error('  https://github.com/sethdford/genai-toolbox/releases/latest');
+  console.error('  https://github.com/sethdford/genai-toolbox-enterprise/releases/latest');
   console.error('');
   process.exit(1);
 }

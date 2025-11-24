@@ -16,7 +16,7 @@ const zlib = require('zlib');
 
 const PACKAGE_VERSION = require('../package.json').version;
 const BINARY_NAME = 'genai-toolbox';
-const GITHUB_REPO = 'sethdford/genai-toolbox';
+const GITHUB_REPO = 'sethdford/genai-toolbox-enterprise';
 const RELEASE_BASE_URL = `https://github.com/${GITHUB_REPO}/releases/download`;
 
 /**

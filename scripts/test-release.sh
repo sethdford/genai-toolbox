@@ -4,8 +4,8 @@
 
 set -e
 
-REPO="sethdford/genai-toolbox"
-VERSION="0.21.1"
+REPO="sethdford/genai-toolbox-enterprise"
+VERSION="0.21.2"
 RELEASE_URL="https://github.com/${REPO}/releases/tag/v${VERSION}"
 
 # Colors

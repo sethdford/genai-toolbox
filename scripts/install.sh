@@ -1,12 +1,12 @@
 #!/bin/bash
 # Enterprise GenAI Toolbox - One-Line Installer
 #
-# Quick install: curl -fsSL https://raw.githubusercontent.com/sethdford/genai-toolbox/main/scripts/install.sh | bash
+# Quick install: curl -fsSL https://raw.githubusercontent.com/sethdford/genai-toolbox-enterprise/main/scripts/install.sh | bash
 #
 
 set -e
 
-REPO="sethdford/genai-toolbox"
+REPO="sethdford/genai-toolbox-enterprise"
 BINARY_NAME="genai-toolbox"
 INSTALL_DIR="${INSTALL_DIR:-$HOME/.local/bin}"
 VERSION="${VERSION:-latest}"

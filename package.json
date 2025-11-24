@@ -1,7 +1,7 @@
 {
-  "name": "@genai-toolbox/server",
+  "name": "@genai-toolbox-enterprise/server",
   "version": "0.21.2",
-  "description": "Enterprise GenAI Toolbox - Production-ready MCP server for AWS databases and observability platforms",
+  "description": "Enterprise GenAI Toolbox - Production-ready MCP server for AWS databases, GCP services, and observability platforms",
   "keywords": [
     "genai",
     "mcp",
@@ -19,13 +19,13 @@
     "database",
     "toolbox"
   ],
-  "homepage": "https://github.com/sethdford/genai-toolbox",
+  "homepage": "https://github.com/sethdford/genai-toolbox-enterprise",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sethdford/genai-toolbox.git"
+    "url": "https://github.com/sethdford/genai-toolbox-enterprise.git"
   },
   "bugs": {
-    "url": "https://github.com/sethdford/genai-toolbox/issues"
+    "url": "https://github.com/sethdford/genai-toolbox-enterprise/issues"
   },
   "license": "Apache-2.0",
   "author": "Seth Ford",

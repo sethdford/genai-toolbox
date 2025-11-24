@@ -1,9 +1,9 @@
 {
     "$schema": "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json",
-    "name": "io.github.googleapis/genai-toolbox",
-    "description": "MCP Toolbox for Databases enables your agent to connect to your database.",
-    "title": "MCP Toolbox",
-    "websiteUrl": "https://github.com/googleapis/genai-toolbox",
+    "name": "io.github.sethdford/genai-toolbox",
+    "description": "Enterprise GenAI Toolbox - MCP server for AWS databases, GCP services, and observability platforms. Enables your AI agent to connect to DynamoDB, S3, Redshift, CloudWatch, BigQuery, and more.",
+    "title": "Enterprise GenAI Toolbox",
+    "websiteUrl": "https://github.com/sethdford/genai-toolbox-enterprise",
     "icons": [
         {
             "src": "https://github.com/googleapis/genai-toolbox/blob/main/.hugo/assets/icons/logo.svg",
@@ -11,10 +11,10 @@
         }
     ],
     "repository": {
-        "url": "https://github.com/googleapis/genai-toolbox",
+        "url": "https://github.com/sethdford/genai-toolbox-enterprise",
         "source": "github"
     },
-    "version": "0.21.0",
+    "version": "0.21.2",
     "packages": [
         {
             "registryType": "oci",

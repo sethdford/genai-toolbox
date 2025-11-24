@@ -240,7 +240,7 @@ redeploying your application.
 
 ```bash
 # macOS, Linux, or Windows (WSL)
-curl -fsSL https://raw.githubusercontent.com/sethdford/genai-toolbox/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/sethdford/genai-toolbox-enterprise/main/scripts/install.sh | bash
 ```
 
 **What this does:**
@@ -251,7 +251,7 @@ curl -fsSL https://raw.githubusercontent.com/sethdford/genai-toolbox/main/script
 
 **Custom installation directory:**
 ```bash
-INSTALL_DIR=/usr/local/bin curl -fsSL https://raw.githubusercontent.com/sethdford/genai-toolbox/main/scripts/install.sh | bash
+INSTALL_DIR=/usr/local/bin curl -fsSL https://raw.githubusercontent.com/sethdford/genai-toolbox-enterprise/main/scripts/install.sh | bash
 ```
 
 </details>
@@ -263,10 +263,10 @@ INSTALL_DIR=/usr/local/bin curl -fsSL https://raw.githubusercontent.com/sethdfor
 
 ```bash
 # Global installation
-npm install -g @genai-toolbox/server
+npm install -g @genai-toolbox-enterprise/server
 
 # Or use npx (no install required)
-npx @genai-toolbox/server --tools-file tools.yaml
+npx @genai-toolbox-enterprise/server --tools-file tools.yaml
 ```
 
 **What this does:**
@@ -282,11 +282,11 @@ npx @genai-toolbox/server --tools-file tools.yaml
 
 For manual installation, check the [releases page][releases] and download the binary for your platform:
 
-[releases]: https://github.com/sethdford/genai-toolbox/releases
+[releases]: https://github.com/sethdford/genai-toolbox-enterprise/releases
 
 **macOS (Apple Silicon)**
 ```sh
-curl -L -o genai-toolbox https://github.com/sethdford/genai-toolbox/releases/latest/download/genai-toolbox-darwin-arm64.tar.gz
+curl -L -o genai-toolbox https://github.com/sethdford/genai-toolbox-enterprise/releases/latest/download/genai-toolbox-darwin-arm64.tar.gz
 tar -xzf genai-toolbox-darwin-arm64.tar.gz
 chmod +x genai-toolbox
 sudo mv genai-toolbox /usr/local/bin/
@@ -294,7 +294,7 @@ sudo mv genai-toolbox /usr/local/bin/
 
 **macOS (Intel)**
 ```sh
-curl -L -o genai-toolbox https://github.com/sethdford/genai-toolbox/releases/latest/download/genai-toolbox-darwin-amd64.tar.gz
+curl -L -o genai-toolbox https://github.com/sethdford/genai-toolbox-enterprise/releases/latest/download/genai-toolbox-darwin-amd64.tar.gz
 tar -xzf genai-toolbox-darwin-amd64.tar.gz
 chmod +x genai-toolbox
 sudo mv genai-toolbox /usr/local/bin/
@@ -302,7 +302,7 @@ sudo mv genai-toolbox /usr/local/bin/
 
 **Linux (amd64)**
 ```sh
-curl -L -o genai-toolbox.tar.gz https://github.com/sethdford/genai-toolbox/releases/latest/download/genai-toolbox-linux-amd64.tar.gz
+curl -L -o genai-toolbox.tar.gz https://github.com/sethdford/genai-toolbox-enterprise/releases/latest/download/genai-toolbox-linux-amd64.tar.gz
 tar -xzf genai-toolbox.tar.gz
 chmod +x genai-toolbox
 sudo mv genai-toolbox /usr/local/bin/
@@ -310,7 +310,7 @@ sudo mv genai-toolbox /usr/local/bin/
 
 **Linux (arm64)**
 ```sh
-curl -L -o genai-toolbox.tar.gz https://github.com/sethdford/genai-toolbox/releases/latest/download/genai-toolbox-linux-arm64.tar.gz
+curl -L -o genai-toolbox.tar.gz https://github.com/sethdford/genai-toolbox-enterprise/releases/latest/download/genai-toolbox-linux-arm64.tar.gz
 tar -xzf genai-toolbox.tar.gz
 chmod +x genai-toolbox
 sudo mv genai-toolbox /usr/local/bin/
@@ -318,7 +318,7 @@ sudo mv genai-toolbox /usr/local/bin/
 
 **Windows (amd64)**
 ```powershell
-# Download from: https://github.com/sethdford/genai-toolbox/releases/latest/download/genai-toolbox-windows-amd64.zip
+# Download from: https://github.com/sethdford/genai-toolbox-enterprise/releases/latest/download/genai-toolbox-windows-amd64.zip
 # Extract and add to PATH
 ```
 
@@ -354,7 +354,7 @@ brew install mcp-toolbox
 
 ```bash
 # Clone the repository
-git clone https://github.com/sethdford/genai-toolbox.git
+git clone https://github.com/sethdford/genai-toolbox-enterprise.git
 cd genai-toolbox
 
 # Build for current platform
