@@ -1,6 +1,6 @@
 module github.com/googleapis/genai-toolbox
 
-go 1.24.7
+go 1.25
 
 toolchain go1.25.3
 
@@ -19,6 +19,18 @@ require (
 	github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/metric v0.53.0
 	github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/trace v1.29.0
 	github.com/apache/cassandra-gocql-driver/v2 v2.0.0
+	github.com/apache/tinkerpop/gremlin-go/v3 v3.8.0
+	github.com/aws/aws-sdk-go-v2 v1.40.0
+	github.com/aws/aws-sdk-go-v2/config v1.31.8
+	github.com/aws/aws-sdk-go-v2/credentials v1.18.12
+	github.com/aws/aws-sdk-go-v2/service/athena v1.56.0
+	github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs v1.60.1
+	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.53.1
+	github.com/aws/aws-sdk-go-v2/service/qldb v1.32.2
+	github.com/aws/aws-sdk-go-v2/service/qldbsession v1.32.2
+	github.com/aws/aws-sdk-go-v2/service/s3 v1.88.1
+	github.com/aws/aws-sdk-go-v2/service/timestreamquery v1.36.6
+	github.com/aws/aws-sdk-go-v2/service/timestreamwrite v1.35.12
 	github.com/cenkalti/backoff/v5 v5.0.3
 	github.com/couchbase/gocb/v2 v2.11.1
 	github.com/couchbase/tools-common/http v1.0.9
@@ -36,6 +48,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/jackc/pgx/v5 v5.7.6
 	github.com/json-iterator/go v1.1.12
+	github.com/lib/pq v1.10.9
 	github.com/looker-open-source/sdk-codegen/go v0.25.18
 	github.com/microsoft/go-mssqldb v1.9.3
 	github.com/nakagami/firebirdsql v0.9.15
@@ -43,6 +56,7 @@ require (
 	github.com/redis/go-redis/v9 v9.16.0
 	github.com/sijms/go-ora/v2 v2.9.0
 	github.com/spf13/cobra v1.10.1
+	github.com/stretchr/testify v1.11.1
 	github.com/thlib/go-timezone-local v0.0.7
 	github.com/trinodb/trino-go-client v0.330.0
 	github.com/valkey-io/valkey-go v1.0.68
@@ -92,6 +106,21 @@ require (
 	github.com/PuerkitoBio/goquery v1.10.3 // indirect
 	github.com/ajg/form v1.5.1 // indirect
 	github.com/apache/arrow/go/v15 v15.0.2 // indirect
+	github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream v1.7.3 // indirect
+	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.18.7 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/configsources v1.4.14 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.7.14 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/ini v1.8.3 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/v4a v1.4.7 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.13.3 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/checksum v1.8.7 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/endpoint-discovery v1.11.14 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.13.7 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/s3shared v1.19.7 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sso v1.29.3 // indirect
+	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.34.4 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sts v1.38.4 // indirect
+	github.com/aws/smithy-go v1.23.2 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/cncf/xds/go v0.0.0-20250501225837-2ac532fd4443 // indirect
 	github.com/couchbase/gocbcore/v10 v10.8.1 // indirect
@@ -99,6 +128,7 @@ require (
 	github.com/couchbase/goprotostellar v1.0.2 // indirect
 	github.com/couchbase/tools-common/errors v1.0.0 // indirect
 	github.com/couchbaselabs/gocbconnstr/v2 v2.0.0 // indirect
+	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/envoyproxy/go-control-plane/envoy v1.32.4 // indirect
@@ -143,9 +173,11 @@ require (
 	github.com/montanaflynn/stats v0.7.1 // indirect
 	github.com/nakagami/chacha20 v0.1.0 // indirect
 	github.com/ncruces/go-strftime v0.1.9 // indirect
+	github.com/nicksnyder/go-i18n/v2 v2.5.0 // indirect
 	github.com/pierrec/lz4 v2.6.1+incompatible // indirect
 	github.com/pierrec/lz4/v4 v4.1.22 // indirect
 	github.com/planetscale/vtprotobuf v0.6.1-0.20240319094008-0393e58bdf10 // indirect
+	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec // indirect
 	github.com/spf13/pflag v1.0.9 // indirect
 	github.com/spiffe/go-spiffe/v2 v2.5.0 // indirect
@@ -185,6 +217,7 @@ require (
 	google.golang.org/grpc v1.76.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 	modernc.org/libc v1.66.10 // indirect
 	modernc.org/mathutil v1.7.1 // indirect
 	modernc.org/memory v1.11.0 // indirect

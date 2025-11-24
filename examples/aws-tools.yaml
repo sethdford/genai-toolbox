@@ -1,0 +1,284 @@
+# Example tools.yaml for AWS Database Integrations
+# This file demonstrates how to configure various AWS database sources
+# for use with MCP Toolbox
+
+sources:
+  # Amazon DynamoDB - NoSQL key-value database
+  my-dynamodb:
+    kind: dynamodb
+    region: us-east-1
+    # Optional: for local development with DynamoDB Local
+    # endpoint: http://localhost:8000
+
+  # Amazon Redshift - Data warehouse
+  my-redshift:
+    kind: redshift
+    host: mycluster.abc123.us-west-2.redshift.amazonaws.com
+    port: "5439"
+    user: ${REDSHIFT_USER}
+    password: ${REDSHIFT_PASSWORD}
+    database: analytics
+    queryParams:
+      application_name: genai-toolbox
+      ssl: "true"
+
+  # Amazon DocumentDB - MongoDB-compatible document database
+  my-documentdb:
+    kind: documentdb
+    uri: mongodb://${DOCDB_USER}:${DOCDB_PASSWORD}@mycluster.us-east-1.docdb.amazonaws.com:27017/?tls=true&replicaSet=rs0
+    tlsCAFile: /path/to/rds-combined-ca-bundle.pem
+
+  # Amazon Neptune - Graph database
+  my-neptune:
+    kind: neptune
+    endpoint: wss://your-neptune-endpoint.us-east-1.neptune.amazonaws.com:8182/gremlin
+    useIAM: true
+
+  # Amazon Timestream - Time series database
+  my-timestream:
+    kind: timestream
+    region: us-east-1
+    database: IoTData
+
+  # Amazon QLDB - Ledger database
+  my-qldb:
+    kind: qldb
+    region: us-east-1
+    ledgerName: vehicle-registration
+
+  # Amazon Athena - Serverless SQL analytics
+  my-athena:
+    kind: athena
+    region: us-east-1
+    database: default
+    outputLocation: s3://my-athena-results/
+    workGroup: primary
+    encryptionOption: SSE_S3
+
+  # Amazon S3 - Object storage
+  my-s3:
+    kind: s3
+    region: us-east-1
+    bucket: my-data-bucket
+
+  # Tableau - Business Intelligence
+  my-tableau:
+    kind: tableau
+    serverUrl: https://tableau.example.com
+    siteName: Production
+    personalAccessTokenName: ${TABLEAU_TOKEN_NAME}
+    personalAccessTokenSecret: ${TABLEAU_TOKEN_SECRET}
+    apiVersion: "3.19"
+
+  # Amazon RDS Aurora PostgreSQL
+  my-aurora-postgres:
+    kind: postgres
+    host: myaurora-cluster.cluster-abc123.us-east-1.rds.amazonaws.com
+    port: "5432"
+    user: ${AURORA_PG_USER}
+    password: ${AURORA_PG_PASSWORD}
+    database: production
+
+  # Amazon RDS Aurora MySQL
+  my-aurora-mysql:
+    kind: mysql
+    host: myaurora-mysql.cluster-abc123.us-west-2.rds.amazonaws.com
+    port: "3306"
+    user: ${AURORA_MYSQL_USER}
+    password: ${AURORA_MYSQL_PASSWORD}
+    database: app_db
+
+  # Amazon ElastiCache for Redis
+  my-elasticache:
+    kind: redis
+    host: my-cluster.abc123.cache.amazonaws.com
+    port: "6379"
+    password: ${REDIS_PASSWORD}
+    database: 0
+
+  # Amazon Keyspaces (Cassandra)
+  my-keyspaces:
+    kind: cassandra
+    hosts:
+      - cassandra.us-east-1.amazonaws.com
+    port: 9142
+    username: ${KEYSPACES_USER}
+    password: ${KEYSPACES_PASSWORD}
+    keyspace: my_keyspace
+
+# Example tools for DynamoDB
+tools:
+  # DynamoDB: Get item by key
+  dynamodb-get-item:
+    kind: dynamodb-get
+    source: my-dynamodb
+    description: Retrieve an item from DynamoDB by primary key
+    parameters:
+      - name: table_name
+        type: string
+        description: Name of the DynamoDB table
+      - name: key
+        type: object
+        description: Primary key of the item to retrieve
+
+  # Redshift: Run analytics query
+  redshift-analytics-query:
+    kind: postgres-sql
+    source: my-redshift
+    description: Run analytical SQL query on Redshift
+    parameters:
+      - name: query
+        type: string
+        description: SQL query to execute
+    statement: ${query}
+
+  # DocumentDB: Find documents
+  documentdb-find:
+    kind: mongodb-find
+    source: my-documentdb
+    description: Query documents in DocumentDB
+    parameters:
+      - name: collection
+        type: string
+        description: Collection name
+      - name: filter
+        type: object
+        description: MongoDB query filter
+
+  # Athena: Query S3 data
+  athena-query:
+    kind: athena-query
+    source: my-athena
+    description: Run SQL query on S3 data using Athena
+    parameters:
+      - name: query
+        type: string
+        description: SQL query to execute
+
+  # S3: List objects
+  s3-list-objects:
+    kind: s3-list
+    source: my-s3
+    description: List objects in an S3 bucket
+    parameters:
+      - name: prefix
+        type: string
+        description: Object key prefix to filter results
+
+  # Timestream: Query time series data
+  timestream-query:
+    kind: timestream-query
+    source: my-timestream
+    description: Query time series data from Timestream
+    parameters:
+      - name: query
+        type: string
+        description: Timestream SQL query
+
+  # Neptune: Gremlin query
+  neptune-gremlin:
+    kind: neptune-gremlin
+    source: my-neptune
+    description: Execute Gremlin query on Neptune graph
+    parameters:
+      - name: query
+        type: string
+        description: Gremlin query string
+
+  # Aurora PostgreSQL: Query data
+  aurora-pg-query:
+    kind: postgres-sql
+    source: my-aurora-postgres
+    description: Query data from Aurora PostgreSQL
+    parameters:
+      - name: sql
+        type: string
+        description: SQL query to execute
+    statement: ${sql}
+
+  # Tableau: Get workbook info
+  tableau-get-workbook:
+    kind: tableau-api
+    source: my-tableau
+    description: Get information about a Tableau workbook
+    parameters:
+      - name: workbook_id
+        type: string
+        description: ID of the workbook
+
+# Toolsets: Group tools for different use cases
+toolsets:
+  # Data Warehouse Analytics
+  analytics:
+    - redshift-analytics-query
+    - athena-query
+    - aurora-pg-query
+
+  # NoSQL Operations
+  nosql:
+    - dynamodb-get-item
+    - documentdb-find
+
+  # Object Storage and Data Lake
+  datalake:
+    - s3-list-objects
+    - athena-query
+
+  # Time Series and IoT
+  timeseries:
+    - timestream-query
+
+  # Graph Analytics
+  graph:
+    - neptune-gremlin
+
+  # Business Intelligence
+  bi:
+    - tableau-get-workbook
+    - redshift-analytics-query
+
+  # All AWS Tools
+  aws-all:
+    - dynamodb-get-item
+    - redshift-analytics-query
+    - documentdb-find
+    - athena-query
+    - s3-list-objects
+    - timestream-query
+    - neptune-gremlin
+    - aurora-pg-query
+    - tableau-get-workbook
+
+# Prompts for AI interactions
+prompts:
+  analyze-s3-data:
+    description: "Analyze data stored in S3 using Athena"
+    messages:
+      - content: "Analyze the data in S3 bucket {{.bucket}} with prefix {{.prefix}} and provide insights on:\n1. Data volume\n2. File formats\n3. Date ranges\n4. Recommended queries"
+    arguments:
+      - name: "bucket"
+        description: "S3 bucket name"
+      - name: "prefix"
+        description: "S3 object prefix"
+
+  query-optimization:
+    description: "Optimize a database query for better performance"
+    messages:
+      - content: "Review and optimize this {{.database}} query:\n\n{{.query}}\n\nProvide:\n1. Performance analysis\n2. Optimization suggestions\n3. Index recommendations\n4. Rewritten query"
+    arguments:
+      - name: "database"
+        description: "Database type (redshift, aurora, etc.)"
+      - name: "query"
+        description: "SQL query to optimize"
+
+  graph-path-finding:
+    description: "Find paths in Neptune graph database"
+    messages:
+      - content: "Find all paths between {{.start_vertex}} and {{.end_vertex}} in the Neptune graph.\n\nConsider:\n1. Shortest paths\n2. Weighted paths if applicable\n3. Path constraints: {{.constraints}}"
+    arguments:
+      - name: "start_vertex"
+        description: "Starting vertex ID"
+      - name: "end_vertex"
+        description: "Ending vertex ID"
+      - name: "constraints"
+        description: "Any path constraints or filters"

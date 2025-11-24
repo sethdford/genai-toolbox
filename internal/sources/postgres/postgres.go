@@ -12,13 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// Package postgres provides a source implementation for PostgreSQL databases.
+//
+// This source provides connectivity to PostgreSQL and PostgreSQL-compatible databases.
+// Connection pooling and query parameters are fully configurable.
 package postgres
 
 import (
 	"context"
 	"fmt"
 	"net/url"
-	"strings"
 
 	"github.com/goccy/go-yaml"
 	"github.com/googleapis/genai-toolbox/internal/sources"
@@ -94,6 +97,7 @@ func (s *Source) ToConfig() sources.SourceConfig {
 	return s.Config
 }
 
+// PostgresPool returns the underlying connection pool for direct database operations.
 func (s *Source) PostgresPool() *pgxpool.Pool {
 	return s.Pool
 }
@@ -130,10 +134,12 @@ func initPostgresConnectionPool(ctx context.Context, tracer trace.Tracer, name, 
 	return pool, nil
 }
 
+// ConvertParamMapToRawQuery safely encodes query parameters to prevent injection attacks.
+// Uses url.Values for proper URL encoding instead of manual string concatenation.
 func ConvertParamMapToRawQuery(queryParams map[string]string) string {
-	queryArray := []string{}
+	values := url.Values{}
 	for k, v := range queryParams {
-		queryArray = append(queryArray, fmt.Sprintf("%s=%s", k, v))
+		values.Add(k, v)
 	}
-	return strings.Join(queryArray, "&")
+	return values.Encode()
 }
