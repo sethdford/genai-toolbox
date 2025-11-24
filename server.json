@@ -17,12 +17,12 @@
     "version": "0.21.3",
     "packages": [
         {
-            "registryType": "oci",
-            "identifier": "us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:0.21.0",
+            "registryType": "npm",
+            "identifier": "@genai-toolbox-enterprise/server",
             "transport": {
-                "type": "streamable-http",
-                "url": "http://{host}:{port}/mcp"
+                "type": "stdio"
             },
+            "command": "genai-toolbox",
             "runtimeArguments": [
                 {
                     "type": "named",

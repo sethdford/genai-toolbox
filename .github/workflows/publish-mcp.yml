@@ -1,0 +1,79 @@
+# Enterprise GenAI Toolbox - MCP Registry Publishing
+#
+# This workflow publishes the Enterprise GenAI Toolbox to the MCP Registry
+# after NPM package is published and available.
+
+name: Publish to MCP Registry
+
+on:
+  # Trigger after successful release (when GitHub release is created)
+  release:
+    types: [published]
+  # Allow manual triggering
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write  # Required for OIDC authentication
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Wait for NPM package availability
+        shell: bash
+        run: |
+          MAX_ATTEMPTS=12
+          VERSION=$(jq -r '.version' server.json)
+          PACKAGE_NAME="@genai-toolbox-enterprise/server"
+
+          echo "Waiting for ${PACKAGE_NAME}@${VERSION} to be available on NPM..."
+
+          # Initial wait for NPM to propagate
+          sleep 30
+
+          for i in $(seq 1 ${MAX_ATTEMPTS}); do
+            echo "Attempt $i: Checking NPM registry..."
+
+            # Check if package version exists
+            if npm view ${PACKAGE_NAME}@${VERSION} version > /dev/null 2>&1; then
+              echo "✅ Package ${PACKAGE_NAME}@${VERSION} found on NPM!"
+              exit 0
+            else
+              echo "❌ Package not yet available on attempt $i."
+              if [ $i -lt ${MAX_ATTEMPTS} ]; then
+                echo "Waiting 30 seconds before next attempt..."
+                sleep 30
+              else
+                echo "⚠️ Maximum attempts reached. Package may not be published yet."
+                echo "Please ensure you've run 'npm publish' before triggering this workflow."
+                exit 1
+              fi
+            fi
+          done
+
+      - name: Install MCP Publisher
+        run: |
+          curl -L "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" | tar xz mcp-publisher
+
+      - name: Login to MCP Registry
+        run: ./mcp-publisher login github-oidc
+
+      - name: Publish to MCP Registry
+        run: ./mcp-publisher publish
+
+      - name: Summary
+        run: |
+          VERSION=$(jq -r '.version' server.json)
+          echo "### 🎉 Published to MCP Registry" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Version:** ${VERSION}" >> $GITHUB_STEP_SUMMARY
+          echo "**Package:** @genai-toolbox-enterprise/server" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Users can now install via MCP Registry or NPM:" >> $GITHUB_STEP_SUMMARY
+          echo '```bash' >> $GITHUB_STEP_SUMMARY
+          echo "npm install -g @genai-toolbox-enterprise/server" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
