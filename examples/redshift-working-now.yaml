@@ -1,0 +1,134 @@
+# Amazon Redshift - WORKING EXAMPLE (No Additional Implementation Needed!)
+#
+# This example demonstrates that Redshift works RIGHT NOW because it's PostgreSQL-compatible.
+# You can use all postgres tools with Redshift sources.
+
+sources:
+  # Amazon Redshift data warehouse
+  analytics-redshift:
+    kind: redshift
+    host: my-cluster.abc123.us-east-1.redshift.amazonaws.com
+    port: "5439"
+    user: analyst
+    password: ${REDSHIFT_PASSWORD}  # Use environment variable
+    database: analytics_dwh
+    maxOpenConns: 50  # Higher for analytics workloads
+    maxIdleConns: 10
+
+  # Amazon RDS Aurora PostgreSQL (also works!)
+  transactional-aurora:
+    kind: postgres
+    host: my-aurora.cluster-abc123.us-east-1.rds.amazonaws.com
+    port: "5432"
+    user: app_user
+    password: ${AURORA_PASSWORD}
+    database: production
+
+tools:
+  # === Redshift Tools (using postgres implementations) ===
+
+  execute_warehouse_sql:
+    kind: postgres-execute-sql
+    source: analytics-redshift
+    description: Execute SQL queries on Redshift data warehouse.
+
+  list_warehouse_tables:
+    kind: postgres-list-tables
+    source: analytics-redshift
+    description: List all tables in the Redshift analytics database.
+
+  list_warehouse_schemas:
+    kind: postgres-list-schemas
+    source: analytics-redshift
+    description: List all schemas in Redshift.
+
+  warehouse_overview:
+    kind: postgres-database-overview
+    source: analytics-redshift
+    description: Get overview of Redshift database structure.
+
+  active_warehouse_queries:
+    kind: postgres-list-active-queries
+    source: analytics-redshift
+    description: List currently running queries on Redshift.
+
+  warehouse_table_stats:
+    kind: postgres-sql
+    source: analytics-redshift
+    description: Get Redshift-specific table statistics including size and distribution.
+    statement: |
+      SELECT
+          TRIM(pgn.nspname) AS schema_name,
+          TRIM(a.name) AS table_name,
+          b.mbytes AS table_size_mb,
+          a.rows AS row_count,
+          a.unsorted AS unsorted_pct,
+          a.stats_off AS stats_off_pct,
+          a.diststyle AS distribution_style,
+          a.sortkey1 AS sort_key
+      FROM svv_table_info a
+      JOIN pg_class AS pgc ON pgc.oid = a.table_id
+      JOIN pg_namespace AS pgn ON pgn.oid = pgc.relnamespace
+      JOIN (
+          SELECT tbl, COUNT(*) AS mbytes
+          FROM stv_blocklist
+          GROUP BY tbl
+      ) b ON a.table_id = b.tbl
+      WHERE pgn.nspname NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
+      ORDER BY b.mbytes DESC
+      LIMIT COALESCE($1::int, 50);
+    parameters:
+      - name: limit
+        description: Maximum number of tables to return.
+        type: integer
+        default: 50
+
+  long_running_warehouse_queries:
+    kind: postgres-sql
+    source: analytics-redshift
+    description: Find long-running queries in Redshift.
+    statement: |
+      SELECT
+          query,
+          user_name,
+          db_name,
+          start_time,
+          elapsed_time,
+          queue_time,
+          exec_time,
+          SUBSTRING(query_text, 1, 100) AS query_preview
+      FROM svv_query_state
+      WHERE state = 'Running'
+      ORDER BY elapsed_time DESC
+      LIMIT COALESCE($1::int, 20);
+    parameters:
+      - name: limit
+        description: Maximum number of queries to return.
+        type: integer
+        default: 20
+
+  # === Aurora PostgreSQL Tools ===
+
+  execute_aurora_sql:
+    kind: postgres-execute-sql
+    source: transactional-aurora
+    description: Execute SQL on Aurora PostgreSQL.
+
+  list_aurora_tables:
+    kind: postgres-list-tables
+    source: transactional-aurora
+    description: List tables in Aurora database.
+
+toolsets:
+  redshift_analytics:
+    - execute_warehouse_sql
+    - list_warehouse_tables
+    - list_warehouse_schemas
+    - warehouse_overview
+    - active_warehouse_queries
+    - warehouse_table_stats
+    - long_running_warehouse_queries
+
+  aurora_operations:
+    - execute_aurora_sql
+    - list_aurora_tables
