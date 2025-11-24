@@ -1,6 +1,6 @@
 {
   "name": "@genai-toolbox/server",
-  "version": "0.21.0",
+  "version": "0.21.2",
   "description": "Enterprise GenAI Toolbox - Production-ready MCP server for AWS databases and observability platforms",
   "keywords": [
     "genai",
