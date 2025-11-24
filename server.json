@@ -1,7 +1,7 @@
 {
     "$schema": "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json",
     "name": "io.github.sethdford/genai-toolbox",
-    "description": "Enterprise GenAI Toolbox - MCP server for AWS databases, GCP services, and observability platforms. Enables your AI agent to connect to DynamoDB, S3, Redshift, CloudWatch, BigQuery, and more.",
+    "description": "MCP server for AWS, GCP databases & observability. DynamoDB, S3, Redshift, BigQuery and more.",
     "title": "Enterprise GenAI Toolbox",
     "websiteUrl": "https://github.com/sethdford/genai-toolbox-enterprise",
     "icons": [
