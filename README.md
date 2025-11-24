@@ -228,68 +228,97 @@ redeploying your application.
 
 ### Installing the server
 
-For the latest version, check the [releases page][releases] and use the
-following instructions for your OS and CPU architecture.
-
-[releases]: https://github.com/googleapis/genai-toolbox/releases
+**🚀 Enterprise-Friendly Installation Options** - No Go compiler required!
 
 <details open>
-<summary>Binary</summary>
+<summary><strong>⚡ One-Line Install (Recommended for Enterprise)</strong></summary>
 
-To install Toolbox as a binary:
+**Automatically downloads the correct binary for your platform:**
 
-<!-- {x-release-please-start-version} -->
-> <details>
-> <summary>Linux (AMD64)</summary>
->
-> To install Toolbox as a binary on Linux (AMD64):
->
-> ```sh
-> # see releases page for other versions
-> export VERSION=0.21.0
-> curl -L -o toolbox https://storage.googleapis.com/genai-toolbox/v$VERSION/linux/amd64/toolbox
-> chmod +x toolbox
-> ```
->
-> </details>
-> <details>
-> <summary>macOS (Apple Silicon)</summary>
->
-> To install Toolbox as a binary on macOS (Apple Silicon):
->
-> ```sh
-> # see releases page for other versions
-> export VERSION=0.21.0
-> curl -L -o toolbox https://storage.googleapis.com/genai-toolbox/v$VERSION/darwin/arm64/toolbox
-> chmod +x toolbox
-> ```
->
-> </details>
-> <details>
-> <summary>macOS (Intel)</summary>
->
-> To install Toolbox as a binary on macOS (Intel):
->
-> ```sh
-> # see releases page for other versions
-> export VERSION=0.21.0
-> curl -L -o toolbox https://storage.googleapis.com/genai-toolbox/v$VERSION/darwin/amd64/toolbox
-> chmod +x toolbox
-> ```
->
-> </details>
-> <details>
-> <summary>Windows (AMD64)</summary>
->
-> To install Toolbox as a binary on Windows (AMD64):
->
-> ```powershell
-> :: see releases page for other versions
-> set VERSION=0.21.0
-> curl -o toolbox.exe "https://storage.googleapis.com/genai-toolbox/v%VERSION%/windows/amd64/toolbox.exe"
-> ```
->
-> </details>
+```bash
+# macOS, Linux, or Windows (WSL)
+curl -fsSL https://raw.githubusercontent.com/sethdford/genai-toolbox/main/scripts/install.sh | bash
+```
+
+**What this does:**
+- Detects your OS and architecture automatically
+- Downloads the latest pre-built binary
+- Installs to `~/.local/bin/genai-toolbox`
+- Works on macOS (Intel & Apple Silicon), Linux (amd64 & arm64), Windows
+
+**Custom installation directory:**
+```bash
+INSTALL_DIR=/usr/local/bin curl -fsSL https://raw.githubusercontent.com/sethdford/genai-toolbox/main/scripts/install.sh | bash
+```
+
+</details>
+
+<details>
+<summary><strong>📦 NPM Install (Easy for Node.js Users)</strong></summary>
+
+**Install via NPM (no Go required):**
+
+```bash
+# Global installation
+npm install -g @genai-toolbox/server
+
+# Or use npx (no install required)
+npx @genai-toolbox/server --tools-file tools.yaml
+```
+
+**What this does:**
+- Automatically downloads the correct binary for your platform
+- Works with existing Node.js setup
+- Available as `genai-toolbox` or `toolbox` command
+- Perfect for teams already using npm
+
+</details>
+
+<details>
+<summary><strong>⬇️ Direct Binary Download</strong></summary>
+
+For manual installation, check the [releases page][releases] and download the binary for your platform:
+
+[releases]: https://github.com/sethdford/genai-toolbox/releases
+
+**macOS (Apple Silicon)**
+```sh
+curl -L -o genai-toolbox https://github.com/sethdford/genai-toolbox/releases/latest/download/genai-toolbox-darwin-arm64.tar.gz
+tar -xzf genai-toolbox-darwin-arm64.tar.gz
+chmod +x genai-toolbox
+sudo mv genai-toolbox /usr/local/bin/
+```
+
+**macOS (Intel)**
+```sh
+curl -L -o genai-toolbox https://github.com/sethdford/genai-toolbox/releases/latest/download/genai-toolbox-darwin-amd64.tar.gz
+tar -xzf genai-toolbox-darwin-amd64.tar.gz
+chmod +x genai-toolbox
+sudo mv genai-toolbox /usr/local/bin/
+```
+
+**Linux (amd64)**
+```sh
+curl -L -o genai-toolbox.tar.gz https://github.com/sethdford/genai-toolbox/releases/latest/download/genai-toolbox-linux-amd64.tar.gz
+tar -xzf genai-toolbox.tar.gz
+chmod +x genai-toolbox
+sudo mv genai-toolbox /usr/local/bin/
+```
+
+**Linux (arm64)**
+```sh
+curl -L -o genai-toolbox.tar.gz https://github.com/sethdford/genai-toolbox/releases/latest/download/genai-toolbox-linux-arm64.tar.gz
+tar -xzf genai-toolbox.tar.gz
+chmod +x genai-toolbox
+sudo mv genai-toolbox /usr/local/bin/
+```
+
+**Windows (amd64)**
+```powershell
+# Download from: https://github.com/sethdford/genai-toolbox/releases/latest/download/genai-toolbox-windows-amd64.zip
+# Extract and add to PATH
+```
+
 </details>
 
 <details>
@@ -316,15 +345,26 @@ brew install mcp-toolbox
 </details>
 
 <details>
-<summary>Compile from source</summary>
+<summary>Build from source (Developers only)</summary>
 
-To install from source, ensure you have the latest version of
-[Go installed](https://go.dev/doc/install), and then run the following command:
+**Requires Go 1.25+**
 
-```sh
-go install github.com/googleapis/genai-toolbox@v0.21.0
+```bash
+# Clone the repository
+git clone https://github.com/sethdford/genai-toolbox.git
+cd genai-toolbox
+
+# Build for current platform
+make build
+
+# Or build for all platforms
+make build-all
+
+# Install to $GOPATH/bin
+make install
 ```
-<!-- {x-release-please-end} -->
+
+See [Makefile](Makefile) for all available build targets.
 
 </details>
 
@@ -338,6 +378,14 @@ gemini extensions install https://github.com/gemini-cli-extensions/mcp-toolbox
 ```
 
 </details>
+
+---
+
+**✅ Verification:**
+```bash
+genai-toolbox --version
+genai-toolbox --help
+```
 
 ### Running the server
 

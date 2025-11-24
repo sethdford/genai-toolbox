@@ -1,0 +1,59 @@
+{
+  "name": "@genai-toolbox/server",
+  "version": "0.21.0",
+  "description": "Enterprise GenAI Toolbox - Production-ready MCP server for AWS databases and observability platforms",
+  "keywords": [
+    "genai",
+    "mcp",
+    "aws",
+    "dynamodb",
+    "s3",
+    "redshift",
+    "neptune",
+    "athena",
+    "cloudwatch",
+    "observability",
+    "honeycomb",
+    "splunk",
+    "tableau",
+    "database",
+    "toolbox"
+  ],
+  "homepage": "https://github.com/sethdford/genai-toolbox",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sethdford/genai-toolbox.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sethdford/genai-toolbox/issues"
+  },
+  "license": "Apache-2.0",
+  "author": "Seth Ford",
+  "main": "bin/genai-toolbox.js",
+  "bin": {
+    "genai-toolbox": "./bin/genai-toolbox.js",
+    "toolbox": "./bin/genai-toolbox.js"
+  },
+  "files": [
+    "bin/",
+    "scripts/install.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "preinstall": "node scripts/install.js",
+    "test": "echo \"Run: npm test\" && exit 0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ],
+  "cpu": [
+    "x64",
+    "arm64"
+  ]
+}
